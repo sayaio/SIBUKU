@@ -1,0 +1,217 @@
+/* =============================================
+   SIBUKU – Sistem Peminjaman Buku Perpustakaan
+   style.css
+   ============================================= */
+
+:root {
+  --color-primary:   #1E3A8A;
+  --color-accent:    #3B82F6;
+  --color-success:   #16A34A;
+  --color-warning:   #F59E0B;
+  --color-danger:    #DC2626;
+  --color-bg:        #F3F4F6;
+  --color-text:      #1F2937;
+}
+
+/* ---------- Global ---------- */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+/* ---------- Navbar ---------- */
+.navbar-sibuku {
+  background-color: var(--color-primary) !important;
+}
+
+.navbar-sibuku .navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: .5px;
+}
+
+.navbar-sibuku .nav-link {
+  color: rgba(255,255,255,.85) !important;
+  font-weight: 500;
+  transition: color .2s;
+}
+
+.navbar-sibuku .nav-link:hover,
+.navbar-sibuku .nav-link.active {
+  color: #fff !important;
+}
+
+.navbar-sibuku .nav-link.active {
+  border-bottom: 2px solid var(--color-accent);
+}
+
+/* ---------- Dashboard cards ---------- */
+.stat-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.13);
+}
+
+.stat-card .stat-icon {
+  font-size: 2.4rem;
+  opacity: .85;
+}
+
+.stat-card .stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.stat-card .stat-label {
+  font-size: .9rem;
+  opacity: .75;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* Card colour variants */
+.stat-card.card-blue   { background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%); color:#fff; }
+.stat-card.card-green  { background: linear-gradient(135deg, #15803d 0%, #22c55e 100%); color:#fff; }
+.stat-card.card-yellow { background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%); color:#fff; }
+
+/* ---------- Section header ---------- */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.2rem;
+}
+
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+/* ---------- Table ---------- */
+.table-wrapper {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  overflow: hidden;
+}
+
+.table-wrapper .table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  white-space: nowrap;
+}
+
+.table tbody tr:hover td { background-color: #EFF6FF; }
+
+/* ---------- Badges ---------- */
+.badge-dipinjam    { background-color: var(--color-warning) !important; color:#1F2937 !important; }
+.badge-dikembalikan{ background-color: var(--color-success) !important; }
+.badge-terlambat   { background-color: var(--color-danger) !important; }
+.badge-aktif       { background-color: var(--color-success) !important; }
+.badge-nonaktif    { background-color: #6b7280 !important; }
+
+/* ---------- Buttons ---------- */
+.btn-primary-custom {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+.btn-primary-custom:hover {
+  background-color: #162d6e;
+  border-color: #162d6e;
+  color: #fff;
+}
+
+.btn-accent {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+.btn-accent:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+/* ---------- Toast ---------- */
+#toast-container {
+  position: fixed;
+  top: 70px;
+  right: 1rem;
+  z-index: 9999;
+  min-width: 280px;
+}
+
+.toast-custom {
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.2);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  background-color: var(--color-primary);
+  color: rgba(255,255,255,.8);
+  font-size: .88rem;
+  padding: .9rem 0;
+  margin-top: auto;
+}
+
+/* ---------- Stock indicator ---------- */
+.stock-ok   { color: var(--color-success); font-weight:600; }
+.stock-low  { color: var(--color-warning); font-weight:600; }
+.stock-zero { color: var(--color-danger);  font-weight:600; }
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #6b7280;
+}
+.empty-state .empty-icon { font-size: 3rem; margin-bottom: .5rem; }
+
+/* ---------- Search input ---------- */
+.search-wrapper { position: relative; }
+.search-wrapper .search-icon {
+  position: absolute;
+  left: .75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+.search-wrapper input { padding-left: 2.2rem; }
+
+/* ---------- Modal ---------- */
+.modal-header {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+.modal-header .btn-close { filter: brightness(0) invert(1); }
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 576px) {
+  .stat-card .stat-value { font-size: 1.7rem; }
+  .table-responsive { font-size: .85rem; }
+  .btn-sm-wrap { width: 100%; margin-top: .3rem; }
+}
