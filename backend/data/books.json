@@ -1,0 +1,68 @@
+[
+  {
+    "id": "B001",
+    "title": "Algoritma dan Pemrograman",
+    "author": "Rinaldi Munir",
+    "publisher": "Informatika",
+    "category": "Informatika",
+    "isbn": "9786028758481",
+    "year": 2016,
+    "total_stock": 5,
+    "available_stock": 4
+  },
+  {
+    "id": "B002",
+    "title": "Basis Data",
+    "author": "Abdul Kadir",
+    "publisher": "Andi",
+    "category": "Informatika",
+    "isbn": "9789792954593",
+    "year": 2018,
+    "total_stock": 4,
+    "available_stock": 4
+  },
+  {
+    "id": "B003",
+    "title": "Jaringan Komputer",
+    "author": "Andrew S. Tanenbaum",
+    "publisher": "Pearson",
+    "category": "Jaringan",
+    "isbn": "9780132126953",
+    "year": 2012,
+    "total_stock": 3,
+    "available_stock": 2
+  },
+  {
+    "id": "B004",
+    "title": "Rekayasa Perangkat Lunak",
+    "author": "Roger S. Pressman",
+    "publisher": "McGraw-Hill",
+    "category": "Informatika",
+    "isbn": "9780078022128",
+    "year": 2015,
+    "total_stock": 4,
+    "available_stock": 4
+  },
+  {
+    "id": "B005",
+    "title": "Kalkulus",
+    "author": "Edwin J. Purcell",
+    "publisher": "Erlangga",
+    "category": "Matematika",
+    "isbn": "9789797812455",
+    "year": 2010,
+    "total_stock": 5,
+    "available_stock": 5
+  },
+  {
+    "id": "B006",
+    "title": "Sistem Operasi",
+    "author": "Abraham Silberschatz",
+    "publisher": "Wiley",
+    "category": "Informatika",
+    "isbn": "9781118063330",
+    "year": 2013,
+    "total_stock": 4,
+    "available_stock": 4
+  }
+]

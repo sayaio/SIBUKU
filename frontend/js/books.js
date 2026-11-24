@@ -1,8 +1,3 @@
-/* =============================================
-   SIBUKU – books.js
-   CRUD Buku + pencarian
-   ============================================= */
-
 'use strict';
 
 let editingBookId = null;
@@ -31,8 +26,8 @@ function renderBooks(filter = '') {
 
   tbody.innerHTML = filtered.map(b => {
     const stockClass = b.stock === 0 ? 'stock-zero'
-                     : b.stock <= 1 ? 'stock-low'
-                     : 'stock-ok';
+                      : b.stock <= 1 ? 'stock-low'
+                      : 'stock-ok';
     return `
     <tr>
       <td class="text-muted small">${b.id}</td>
@@ -76,14 +71,13 @@ function openEditBook(id) {
   openModal('bookModal');
 }
 
-function saveBook() {
+async function saveBook() {
   const title    = document.getElementById('book-title').value.trim();
   const author   = document.getElementById('book-author').value.trim();
   const category = document.getElementById('book-category').value.trim();
   const year     = parseInt(document.getElementById('book-year').value);
   const total    = parseInt(document.getElementById('book-total').value);
 
-  // Validasi
   if (!title || !author || !category || isNaN(year) || isNaN(total)) {
     showToast('Semua field wajib diisi!', 'danger'); return;
   }
@@ -97,18 +91,15 @@ function saveBook() {
   const books = DB.getBooks();
 
   if (editingBookId) {
-    // UPDATE
     const idx  = books.findIndex(b => b.id === editingBookId);
     if (idx === -1) return;
     const old  = books[idx];
-    // Hitung stok baru: stok lama + (total baru - total lama)
     const diff = total - old.total;
     const newStock = Math.max(0, old.stock + diff);
     books[idx] = { ...old, title, author, category, year, total, stock: newStock };
-    DB.saveBooks(books);
+    try { await DB.saveBooks(books); } catch (_) { return; }
     showToast(`Buku "${title}" berhasil diperbarui.`, 'success');
   } else {
-    // CREATE
     const newBook = {
       id:       generateId('B', books),
       title, author, category, year,
@@ -116,7 +107,7 @@ function saveBook() {
       stock:    total,
     };
     books.push(newBook);
-    DB.saveBooks(books);
+    try { await DB.saveBooks(books); } catch (_) { return; }
     showToast(`Buku "${title}" berhasil ditambahkan.`, 'success');
   }
 
@@ -125,7 +116,7 @@ function saveBook() {
 }
 
 // ── Delete ────────────────────────────────────────────────────────────────────
-function deleteBook(id) {
+async function deleteBook(id) {
   const borrowings = DB.getBorrowings();
   const hasActive  = borrowings.some(l => l.bookId === id && l.status === 'Dipinjam');
   if (hasActive) {
@@ -137,7 +128,7 @@ function deleteBook(id) {
   if (!confirm(`Hapus buku "${book.title}"? Tindakan ini tidak dapat dibatalkan.`)) return;
 
   const books = DB.getBooks().filter(b => b.id !== id);
-  DB.saveBooks(books);
+  try { await DB.saveBooks(books); } catch (_) { return; }
   showToast(`Buku "${book.title}" berhasil dihapus.`, 'success');
   renderBooks(document.getElementById('search-book').value);
 }
@@ -152,7 +143,13 @@ function escHtml(str) {
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('btn-reset').addEventListener('click', async () => {
+    if (!confirm('Reset semua data ke kondisi awal? Semua perubahan akan hilang.')) return;
+    try { await resetData(); renderBooks(); showToast('Data berhasil direset ke kondisi awal.', 'warning'); }
+    catch (e) { showToast(e.message, 'danger'); }
+  });
+  try { await DB.ready; } catch (_) { return; }
   renderBooks();
 
   document.getElementById('search-book').addEventListener('input', e => {
@@ -162,11 +159,4 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-add-book').addEventListener('click', openAddBook);
   document.getElementById('btn-save-book').addEventListener('click', saveBook);
 
-  document.getElementById('btn-reset').addEventListener('click', () => {
-    if (confirm('Reset semua data ke kondisi awal? Semua perubahan akan hilang.')) {
-      DB.reset();
-      renderBooks();
-      showToast('Data berhasil direset ke kondisi awal.', 'warning');
-    }
-  });
 });

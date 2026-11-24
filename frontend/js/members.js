@@ -1,15 +1,11 @@
-/* =============================================
-   SIBUKU – members.js
-   CRUD Anggota
-   ============================================= */
-
 'use strict';
 
 let editingMemberId = null;
 
 // ── Render tabel ──────────────────────────────────────────────────────────────
-function renderMembers() {
-  const members = DB.getMembers();
+function renderMembers(filter = '') {
+  const key = filter.toLowerCase().trim();
+  const members = DB.getMembers().filter(m => !key || m.name.toLowerCase().includes(key) || m.nim.includes(key));
   const tbody   = document.getElementById('members-tbody');
 
   if (!members.length) {
@@ -70,13 +66,12 @@ function openEditMember(id) {
   openModal('memberModal');
 }
 
-function saveMember() {
+async function saveMember() {
   const name   = document.getElementById('member-name').value.trim();
   const nim    = document.getElementById('member-nim').value.trim();
   const major  = document.getElementById('member-major').value.trim();
   const status = document.getElementById('member-status').value;
 
-  // Validasi wajib
   if (!name || !nim || !major || !status) {
     showToast('Semua field wajib diisi!', 'danger'); return;
   }
@@ -86,18 +81,15 @@ function saveMember() {
 
   const members = DB.getMembers();
 
-  // Cek NIM unik
   const nimDuplicate = members.find(m => m.nim === nim && m.id !== editingMemberId);
   if (nimDuplicate) {
     showToast(`NIM ${nim} sudah terdaftar!`, 'danger'); return;
   }
 
   if (editingMemberId) {
-    // UPDATE
     const idx = members.findIndex(m => m.id === editingMemberId);
     if (idx === -1) return;
 
-    // Jika status diubah dari Aktif → Nonaktif, cek pinjaman aktif
     if (status === 'Nonaktif' && members[idx].status === 'Aktif') {
       const hasActive = DB.getBorrowings().some(l => l.memberId === editingMemberId && l.status === 'Dipinjam');
       if (hasActive) {
@@ -107,16 +99,15 @@ function saveMember() {
     }
 
     members[idx] = { ...members[idx], name, nim, major, status };
-    DB.saveMembers(members);
+    try { await DB.saveMembers(members); } catch (_) { return; }
     showToast(`Anggota "${name}" berhasil diperbarui.`, 'success');
   } else {
-    // CREATE
     const newMember = {
       id: generateId('M', members),
       name, nim, major, status,
     };
     members.push(newMember);
-    DB.saveMembers(members);
+    try { await DB.saveMembers(members); } catch (_) { return; }
     showToast(`Anggota "${name}" berhasil ditambahkan.`, 'success');
   }
 
@@ -125,7 +116,7 @@ function saveMember() {
 }
 
 // ── Delete ────────────────────────────────────────────────────────────────────
-function deleteMember(id) {
+async function deleteMember(id) {
   const hasActive = DB.getBorrowings().some(l => l.memberId === id && l.status === 'Dipinjam');
   if (hasActive) {
     showToast('Anggota tidak dapat dihapus karena masih memiliki pinjaman aktif!', 'danger');
@@ -136,7 +127,7 @@ function deleteMember(id) {
   if (!confirm(`Hapus anggota "${member.name}"? Tindakan ini tidak dapat dibatalkan.`)) return;
 
   const members = DB.getMembers().filter(m => m.id !== id);
-  DB.saveMembers(members);
+  try { await DB.saveMembers(members); } catch (_) { return; }
   showToast(`Anggota "${member.name}" berhasil dihapus.`, 'success');
   renderMembers();
 }
@@ -151,17 +142,17 @@ function escHtml(str) {
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('btn-reset').addEventListener('click', async () => {
+    if (!confirm('Reset semua data ke kondisi awal? Semua perubahan akan hilang.')) return;
+    try { await resetData(); renderMembers(); showToast('Data berhasil direset ke kondisi awal.', 'warning'); }
+    catch (e) { showToast(e.message, 'danger'); }
+  });
+  try { await DB.ready; } catch (_) { return; }
   renderMembers();
 
   document.getElementById('btn-add-member').addEventListener('click', openAddMember);
   document.getElementById('btn-save-member').addEventListener('click', saveMember);
+  document.getElementById('search-member').addEventListener('input', e => renderMembers(e.target.value));
 
-  document.getElementById('btn-reset').addEventListener('click', () => {
-    if (confirm('Reset semua data ke kondisi awal? Semua perubahan akan hilang.')) {
-      DB.reset();
-      renderMembers();
-      showToast('Data berhasil direset ke kondisi awal.', 'warning');
-    }
-  });
 });

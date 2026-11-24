@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+<!-- ═══════════════════════ NAVBAR  ═══════════════════════ -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-sibuku shadow-sm">
   <div class="container">
     <a class="navbar-brand" href="index.html">
@@ -66,11 +66,12 @@
             <th>Tgl Pinjam</th>
             <th>Jatuh Tempo</th>
             <th>Tgl Kembali</th>
-            <th style="width:220px">Status / Aksi</th>
+            <th style="width:120px">Status</th>
+            <th style="width:220px">Aksi</th>
           </tr>
         </thead>
         <tbody id="borrow-tbody">
-          <tr><td colspan="7" class="text-center py-3 text-muted">Memuat…</td></tr>
+          <tr><td colspan="8" class="text-center py-3 text-muted">Memuat…</td></tr>
         </tbody>
       </table>
     </div>
@@ -98,7 +99,6 @@
       <div class="modal-body">
         <form id="borrow-form" novalidate>
 
-          <!-- Member select -->
           <div class="mb-3" id="row-member-select">
             <label class="form-label fw-semibold">Anggota <span class="text-danger">*</span></label>
             <select id="borrow-member" class="form-select">
@@ -107,7 +107,6 @@
             <div class="form-text">Hanya anggota berstatus <strong>Aktif</strong> yang ditampilkan.</div>
           </div>
 
-          <!-- Book select -->
           <div class="mb-3" id="row-book-select">
             <label class="form-label fw-semibold">Buku <span class="text-danger">*</span></label>
             <select id="borrow-book" class="form-select">
@@ -116,7 +115,6 @@
             <div class="form-text">Buku dengan stok 0 tidak bisa dipilih.</div>
           </div>
 
-          <!-- Dates row -->
           <div class="row g-2">
             <div class="col-6">
               <label class="form-label fw-semibold">Tanggal Pinjam</label>
@@ -129,7 +127,6 @@
             </div>
           </div>
 
-          <!-- Business rules reminder -->
           <div class="alert alert-info mt-3 py-2 small" id="borrow-rules-info">
             <i class="bi bi-info-circle me-1"></i>
             <strong>Aturan:</strong> Maks 3 buku per anggota · Tidak bisa meminjam buku yang sama dua kali
@@ -151,7 +148,8 @@
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/data.js"></script>
+<script src="js/api.js"></script>
 <script src="js/borrowings.js"></script>
 </body>
 </html>
+

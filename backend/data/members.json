@@ -1,0 +1,38 @@
+[
+  {
+    "id": "M001",
+    "name": "Andi Pratama",
+    "student_id": "1302220001",
+    "email": "andi@example.test",
+    "phone": "081200000001",
+    "major": "Informatika",
+    "status": "active"
+  },
+  {
+    "id": "M002",
+    "name": "Siti Rahma",
+    "student_id": "1302220002",
+    "email": "siti@example.test",
+    "phone": "081200000002",
+    "major": "Sistem Informasi",
+    "status": "active"
+  },
+  {
+    "id": "M003",
+    "name": "Budi Santoso",
+    "student_id": "1302220003",
+    "email": "budi@example.test",
+    "phone": "081200000003",
+    "major": "Teknik Komputer",
+    "status": "active"
+  },
+  {
+    "id": "M004",
+    "name": "Dewi Lestari",
+    "student_id": "1302220004",
+    "email": "dewi@example.test",
+    "phone": "081200000004",
+    "major": "Informatika",
+    "status": "inactive"
+  }
+]
